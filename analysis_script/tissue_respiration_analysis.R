@@ -48,7 +48,7 @@ colnames(root_mass) = c("genus", "species", "GrowthT", "Rep", "a_mass", "b_mass"
 
 all_mass_sub = rbind(stem_mass, root_mass, leaf_mass)
 
-all_mass_sub$individual = paste(all_mass$genus, all_mass$species, all_mass$GrowthT, all_mass$Rep, sep = '_')
+all_mass_sub$individual = paste(all_mass_sub$genus, all_mass_sub$species, all_mass_sub$GrowthT, all_mass_sub$Rep, sep = '_')
 
 # add in plant type characteristics
 all_mass_sub$lifespan = 'annual'
@@ -107,7 +107,6 @@ all_mass_sub_ps$rdvcmax_acc_mass = all_mass_sub_ps$rd_acc_mass / all_mass_sub_ps
 #############################
 #MM analyses
 a_lm = lmer(a_mass ~ GrowthT * tissue_ps + species + (1|individual) , data = all_mass_sub)
-summary(a_lm)
 Anova(a_lm) # 
 cld(emmeans(a_lm, ~species))
 a_lm_lsm = emtrends(a_lm, ~ tissue_ps, var = 'GrowthT')
@@ -117,7 +116,6 @@ contrast(a_lm_lsm, list(c1 = c(-1, 1, 1, -1))) # test non-photosynthetic versus 
 plot(residuals(a_lm)~fitted(a_lm))
 
 b_lm = lmer(b_mass ~ GrowthT * tissue_ps + species + (1|individual) , data = all_mass_sub)
-summary(b_lm)
 Anova(b_lm) # T x tissue
 b_lm_lsm = emtrends(b_lm, ~ tissue_ps, var = 'GrowthT')
 test(b_lm_lsm) # 
@@ -126,7 +124,6 @@ contrast(b_lm_lsm, list(c1 = c(-1, 1, 1, -1))) # test non-photosynthetic versus 
 plot(residuals(b_lm)~fitted(b_lm))
 
 c_lm = lmer(c_mass ~ GrowthT * tissue_ps + species + (1|individual) , data = all_mass_sub)
-summary(c_lm)
 Anova(c_lm) # tissue and T x tissue
 c_lm_lsm = emtrends(c_lm, ~ tissue_ps, var = 'GrowthT')
 test(c_lm_lsm) # 
